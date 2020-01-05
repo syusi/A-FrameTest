@@ -1,6 +1,9 @@
 # A-FrameTest
 A-Frameのテスト
 
+# 公式ドキュメント
+https://aframe.io/docs/1.0.0/
+
 # github webの公開の仕方(後でまとめます)
 https://qiita.com/tonkotsuboy_com/items/f98667b89228b98bc096
 
