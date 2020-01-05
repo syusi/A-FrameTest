@@ -1,6 +1,10 @@
 # A-FrameTest
 A-Frameのテスト
 
+# github webの公開の仕方(後でまとめます)
+https://qiita.com/tonkotsuboy_com/items/f98667b89228b98bc096
+
+
 # つまりどころ
 - ローカルだけで開発は無理っぽい？
     - A-Frame:error This HTML file is currently being served via the file:// protocol. Assets, textures, and models WILL NOT WORK due to cross-origin policy! Please use a local or hosted server: https://aframe.io/docs/0.5.0/introduction/getting-started.html#using-a-local-server. 
