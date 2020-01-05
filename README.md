@@ -5,7 +5,7 @@ A-Frameのテスト
 https://qiita.com/tonkotsuboy_com/items/f98667b89228b98bc096
 
 # 公開ページ
-https://syusi.github.io/A-FrameTest/
+https://syusi.github.io/A-FrameTest/main.html
 
 
 # つまりどころ
