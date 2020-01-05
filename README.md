@@ -4,6 +4,9 @@ A-Frameのテスト
 # github webの公開の仕方(後でまとめます)
 https://qiita.com/tonkotsuboy_com/items/f98667b89228b98bc096
 
+# 公開ページ
+https://syusi.github.io/A-FrameTest/
+
 
 # つまりどころ
 - ローカルだけで開発は無理っぽい？
