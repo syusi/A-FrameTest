@@ -9,10 +9,43 @@
 	<a-scene>
         <a-sky color="#DDDDDD"></a-sky>
         <a-box
-            color="#0095DD"
-            position="0 0 0"
-            rotation="20 40 0">
+          color="#0095DD"
+          position="0 0 0"
+          rotation="20 40 0"
+          animation="property: rotation; from: 20 0 0; to: 20 360 0; loop: true; dur: 3000"
+          animation__mouseenter="property: rotation; from: 20 0 0; to: 20 360 0; dir:reverse; startEvents: mouseenter; loop: true; dur: 3000">
         </a-box>
     </a-scene>
 </body>
+<script>
+var scene = document.querySelector('a-scene');
+var cylinder = document.createElement('a-cylinder');
+cylinder.setAttribute('color', '#FF9500');
+cylinder.setAttribute('height', '2');
+cylinder.setAttribute('radius', '0.75');
+cylinder.setAttribute('position', '3 1 0');
+scene.appendChild(cylinder);
+
+var t = 0;
+//作画用の関数
+function render() {
+  t += 0.01;
+  //次フレームも再び呼ぶ用に関数。
+  requestAnimationFrame(render);
+  cylinder.setAttribute('position', '3 '+(Math.sin(t*2)+1)+' 0');
+}
+render();
+
+//window上でのクリック反応を見る
+function clickPage (e) {
+  var camera = document.querySelector('a-camera');
+  //右クリック
+  if (e.button == 2) {
+    console.log("r:"+JSON.stringify(camera.object3D.rotation)+" p:"+JSON.stringify(camera.object3D.position));
+  }
+}
+
+window.onmousedown = clickPage;
+
+</script>
 </html>
