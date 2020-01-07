@@ -18,3 +18,8 @@ https://syusi.github.io/A-FrameTest/main.html
 - 画面にボックスが表示されない。
     - 公式を見ていた：https://developer.mozilla.org/ja/docs/Games/Techniques/3D_on_the_web/Building_up_a_basic_demo_with_A-Frame
     - 現在、箱を出すタグはa-cubeではなくてa-boxであることが判明。修正で動いた。やっぱり公式はクソ。
+    - そもそもMDNのページがバージョン古すぎて参考にならない。
+    - 正式な公式ページを見るべき(2019-12-29公開なので、むしろ公式しか参考にならない。)
+- 角度が少しめんどくさい
+    - Three.js依存している。
+    - 内部データではラジアンで持っている。
