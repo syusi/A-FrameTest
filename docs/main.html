@@ -61,6 +61,26 @@ function render() {
 }
 render();
 
+var box = document.createElement('a-box');
+box.setAttribute('position','0 0 0');
+scene.appendChild(box);
+
+function physics(){
+  pos.x += acc.x;
+  pos.y += acc.y;
+  acc.y += -0.01;
+  pos.z += acc.z;
+  requestAnimationFrame(physics);
+  box.setAttribute('position', pos.x + ' ' + pos.y + ' ' + pos.z);
+}
+
+var pos = {};
+pos.x = pos.y = pos.z = 0;
+var acc = {};
+acc.x = acc.z = 0.01;
+acc.y = 0;
+physics();
+
 //window上でのクリック反応を見る
 function clickPage (e) {
   var camera = document.querySelector('a-camera');
@@ -70,7 +90,32 @@ function clickPage (e) {
   }
 }
 
-window.onmousedown = clickPage;
+//window.onmousedown = clickPage;
+
+window.onmousedown = function() {
+  var scene = document.querySelector('a-scene');
+  var sphere = document.createElement('a-sphere');
+  sphere.setAttribute('color', '#FF0000');
+  sphere.setAttribute('radius', '0.75');
+  sphere.setAttribute('position', '0 0 0');
+  scene.appendChild(sphere);
+
+  function physics(){
+    pos.x += acc.x;
+    pos.y += acc.y;
+    acc.y += -0.01;
+    pos.z += acc.z;
+    requestAnimationFrame(physics);
+    sphere.setAttribute('position', pos.x + ' ' + pos.y + ' ' + pos.z);
+  }
+  var pos = {};
+  pos.x = pos.y = pos.z = 0;
+  var acc = {};
+  acc.x = 0.5;
+  acc.z = 0;
+  acc.y = 0.2;
+  physics();
+}
 
 </script>
 </html>
