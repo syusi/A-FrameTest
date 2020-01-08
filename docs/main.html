@@ -9,6 +9,7 @@
 	<a-scene>
         <a-sky color="#DDDDDD"></a-sky>
         <a-box
+          id="target"
           color="#0095DD"
           position="0 0 0"
           rotation="20 40 0"
@@ -61,11 +62,11 @@ function render() {
 }
 render();
 
-var box = document.createElement('a-box');
-box.setAttribute('position','0 0 0');
-scene.appendChild(box);
+//var box = document.createElement('a-box');
+//box.setAttribute('position','0 0 0');
+//scene.appendChild(box);
 
-function physics(){
+/*function physics(){
   pos.x += acc.x;
   pos.y += acc.y;
   acc.y += -0.01;
@@ -80,8 +81,10 @@ var acc = {};
 acc.x = acc.z = 0.01;
 acc.y = 0;
 physics();
+*/
 
 var toDig = d => d * 180 / Math.PI;
+var getRandomDig = () => Math.floor(Math.random() * Math.floor(360));
 
 //window上でのクリック反応を見る
 function clickPage (e) {
@@ -103,19 +106,31 @@ window.ontouchstart = window.onmousedown = function() {
   sphere.setAttribute('radius', '0.25');
   sphere.setAttribute('position', '0 0 0');
   scene.appendChild(sphere);
-
+  //移動&当たり判定(適当実装)
   function physics(){
     pos.x += acc.x;
     pos.y += acc.y;
     acc.y += -0.01;
     pos.z += acc.z;
-    requestAnimationFrame(physics);
+    var animId = requestAnimationFrame(physics);
     sphere.setAttribute('position', pos.x + ' ' + pos.y + ' ' + pos.z);
+
+    var boxpos = document.getElementById("target").object3D.position;
+    var dis = Math.sqrt((boxpos.x - pos.x)**2 + (boxpos.y - pos.y)**2 + (boxpos.z - pos.z)**2);
+    console.log(dis);
+    if (dis < 0.50) {
+      document.getElementById("target").object3D.position.y -= 1;
+      scene.removeChild(sphere);
+      cancelAnimationFrame(animId);
+    }else if(dis > 50){
+      scene.removeChild(sphere);
+      cancelAnimationFrame(animId);
+    }
   }
   var pos = {};
   pos.x = 0; pos.y = 1; pos.z = 4;
   var acc = {};
-  var baseSpeed = -0.5;
+  var baseSpeed = -0.4;
   var nowRotation = document.querySelector('a-camera').object3D.rotation;
   acc.x = Math.sin(nowRotation._y) * baseSpeed;
   acc.z = Math.cos(nowRotation._y) * baseSpeed;
