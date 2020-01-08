@@ -96,7 +96,7 @@ function clickPage (e) {
 
 window.onmouseup = clickPage;
 
-window.onmousedown = function() {
+window.ontouchstart = window.onmousedown = function() {
   var scene = document.querySelector('a-scene');
   var sphere = document.createElement('a-sphere');
   sphere.setAttribute('color', '#FF0000');
