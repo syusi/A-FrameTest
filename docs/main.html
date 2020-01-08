@@ -61,16 +61,67 @@ function render() {
 }
 render();
 
+var box = document.createElement('a-box');
+box.setAttribute('position','0 0 0');
+scene.appendChild(box);
+
+function physics(){
+  pos.x += acc.x;
+  pos.y += acc.y;
+  acc.y += -0.01;
+  pos.z += acc.z;
+  requestAnimationFrame(physics);
+  box.setAttribute('position', pos.x + ' ' + pos.y + ' ' + pos.z);
+}
+
+var pos = {};
+pos.x = pos.y = pos.z = 0;
+var acc = {};
+acc.x = acc.z = 0.01;
+acc.y = 0;
+physics();
+
+var toDig = d => d * 180 / Math.PI;
+
 //window上でのクリック反応を見る
 function clickPage (e) {
   var camera = document.querySelector('a-camera');
   //右クリック
   if (e.button == 2) {
     console.log("r:"+JSON.stringify(camera.object3D.rotation)+" p:"+JSON.stringify(camera.object3D.position));
+    var rotation = camera.object3D.rotation;
+    console.log("rx:"+toDig(rotation._x)+" ry:"+toDig(rotation._y)+" rz:"+toDig(rotation._z));
   }
 }
 
-window.onmousedown = clickPage;
+window.onmouseup = clickPage;
+
+window.ontouchstart = window.onmousedown = function() {
+  var scene = document.querySelector('a-scene');
+  var sphere = document.createElement('a-sphere');
+  sphere.setAttribute('color', '#FF0000');
+  sphere.setAttribute('radius', '0.25');
+  sphere.setAttribute('position', '0 0 0');
+  scene.appendChild(sphere);
+
+  function physics(){
+    pos.x += acc.x;
+    pos.y += acc.y;
+    acc.y += -0.01;
+    pos.z += acc.z;
+    requestAnimationFrame(physics);
+    sphere.setAttribute('position', pos.x + ' ' + pos.y + ' ' + pos.z);
+  }
+  var pos = {};
+  pos.x = 0; pos.y = 1; pos.z = 4;
+  var acc = {};
+  var baseSpeed = -0.5;
+  var nowRotation = document.querySelector('a-camera').object3D.rotation;
+  acc.x = Math.sin(nowRotation._y) * baseSpeed;
+  acc.z = Math.cos(nowRotation._y) * baseSpeed;
+  acc.y = Math.sin(nowRotation._x) * -baseSpeed;
+  physics();
+}
 
 </script>
 </html>
