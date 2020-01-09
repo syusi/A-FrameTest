@@ -37,7 +37,7 @@
           <a-text
             id = "boxHitText"
             position="1 1 -2"
-            value="Box Hit Count:0"
+            value="Count:0"
             align="center"
           ></a-text>
           <a-cursor
@@ -138,7 +138,7 @@ window.ontouchstart = window.onmousedown = function() {
       HitCount++;
       console.log(HitCount);
       
-      document.getElementById("boxHitText").setAttribute('value',"Box Hit Count:"+HitCount);
+      document.getElementById("boxHitText").setAttribute('value',"Count:"+HitCount);
 
       document.getElementById("target").object3D.position.set(posx,posy,posz);
       cancelAnimationFrame(animId);
