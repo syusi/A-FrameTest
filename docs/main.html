@@ -11,7 +11,7 @@
         <a-box
           id="target"
           color="#0095DD"
-          position="0 0 0"
+          position="0 -1 -4"
           rotation="20 40 0"
           animation="property: rotation; from: 20 0 0; to: 20 360 0; loop: true; dur: 3000"
           animation__mouseenter="property: rotation; from: 20 0 0; to: 20 360 0; dir:reverse; startEvents: mouseenter; loop: true; dur: 3000"
@@ -27,12 +27,12 @@
             color: #EAEFF2;
             roughness: 0.1;
             metalness: 0.5;"
-          rotation="10 0 0"
-          position="-3 1 0">
+          rotation="10 -1 -4"
+          position="-3 -1 -4">
       </a-entity>
 
         <a-camera
-          position="0 1 4"
+          position="0 0 0"
         >
           <a-cursor
             scale="2 2 2"
@@ -49,7 +49,7 @@ var cylinder = document.createElement('a-cylinder');
 cylinder.setAttribute('color', '#FF9500');
 cylinder.setAttribute('height', '2');
 cylinder.setAttribute('radius', '0.75');
-cylinder.setAttribute('position', '3 1 0');
+cylinder.setAttribute('position', '3 -1 -4');
 scene.appendChild(cylinder);
 
 var t = 0;
@@ -58,7 +58,7 @@ function render() {
   t += 0.01;
   //次フレームも再び呼ぶ用に関数。
   requestAnimationFrame(render);
-  cylinder.setAttribute('position', '3 '+(Math.sin(t*2)+1)+' 0');
+  cylinder.setAttribute('position', '3 '+(Math.sin(t*2)-1)+' -4');
 }
 render();
 
@@ -85,6 +85,7 @@ physics();
 
 var toDig = d => d * 180 / Math.PI;
 var getRandomDig = () => Math.floor(Math.random() * Math.floor(360));
+var getRamdomRad = () => getRandomDig() * 180 / Math.PI;
 
 //window上でのクリック反応を見る
 function clickPage (e) {
@@ -119,6 +120,10 @@ window.ontouchstart = window.onmousedown = function() {
     var dis = Math.sqrt((boxpos.x - pos.x)**2 + (boxpos.y - pos.y)**2 + (boxpos.z - pos.z)**2);
     console.log(dis);
     if (dis < 0.50) {
+      var heightRad = getRamdomRad();
+      var horizonRad = getRamdomRad();
+
+
       document.getElementById("target").object3D.position.y -= 1;
       scene.removeChild(sphere);
       cancelAnimationFrame(animId);
@@ -128,7 +133,7 @@ window.ontouchstart = window.onmousedown = function() {
     }
   }
   var pos = {};
-  pos.x = 0; pos.y = 1; pos.z = 4;
+  pos.x = pos.y = pos.z = 0;
   var acc = {};
   var baseSpeed = -0.4;
   var nowRotation = document.querySelector('a-camera').object3D.rotation;
