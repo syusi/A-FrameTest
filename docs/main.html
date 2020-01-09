@@ -34,7 +34,12 @@
         <a-camera
           position="0 0 0"
         >
-          <a-text value="Hello, World!"></a-text>
+          <a-text
+            id = "boxHitText"
+            position="1 1 -2"
+            value="Box Hit Count:0"
+            align="center"
+          ></a-text>
           <a-cursor
             scale="2 2 2"
             color="#ff0000"
@@ -101,6 +106,8 @@ function clickPage (e) {
 
 window.onmouseup = clickPage;
 
+var HitCount = 0;
+
 window.ontouchstart = window.onmousedown = function() {
   var scene = document.querySelector('a-scene');
   var sphere = document.createElement('a-sphere');
@@ -119,7 +126,7 @@ window.ontouchstart = window.onmousedown = function() {
 
     var boxpos = document.getElementById("target").object3D.position;
     var dis = (boxpos.x - pos.x)**2 + (boxpos.y - pos.y)**2 + (boxpos.z - pos.z)**2;
-    console.log(dis);
+    //console.log(dis);
     if (dis < 0.25) {
       var heightRad = getRamdomRad();
       var horizonRad = getRamdomRad();
@@ -127,6 +134,11 @@ window.ontouchstart = window.onmousedown = function() {
       var posz = Math.sin(heightRad) * baseDis;
       var posy = Math.cos(heightRad) * Math.sin(horizonRad) * baseDis;
       var posx = Math.cos(heightRad) * Math.cos(horizonRad) * baseDis;
+
+      HitCount++;
+      console.log(HitCount);
+      
+      document.getElementById("boxHitText").setAttribute('value',"Box Hit Count:"+HitCount);
 
       document.getElementById("target").object3D.position.set(posx,posy,posz);
       cancelAnimationFrame(animId);
