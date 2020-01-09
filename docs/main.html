@@ -11,7 +11,7 @@
         <a-box
           id="target"
           color="#0095DD"
-          position="0 -1 -4"
+          position="3 0 -4"
           rotation="20 40 0"
           animation="property: rotation; from: 20 0 0; to: 20 360 0; loop: true; dur: 3000"
           animation__mouseenter="property: rotation; from: 20 0 0; to: 20 360 0; dir:reverse; startEvents: mouseenter; loop: true; dur: 3000"
@@ -58,7 +58,7 @@ function render() {
   t += 0.01;
   //次フレームも再び呼ぶ用に関数。
   requestAnimationFrame(render);
-  cylinder.setAttribute('position', '3 '+(Math.sin(t*2)-1)+' -4');
+  cylinder.setAttribute('position', '0 '+(Math.sin(t*2)-1)+' -4');
 }
 render();
 
@@ -117,19 +117,22 @@ window.ontouchstart = window.onmousedown = function() {
     sphere.setAttribute('position', pos.x + ' ' + pos.y + ' ' + pos.z);
 
     var boxpos = document.getElementById("target").object3D.position;
-    var dis = Math.sqrt((boxpos.x - pos.x)**2 + (boxpos.y - pos.y)**2 + (boxpos.z - pos.z)**2);
+    var dis = (boxpos.x - pos.x)**2 + (boxpos.y - pos.y)**2 + (boxpos.z - pos.z)**2;
     console.log(dis);
-    if (dis < 0.50) {
+    if (dis < 0.25) {
       var heightRad = getRamdomRad();
       var horizonRad = getRamdomRad();
-
+      const baseDis = 5;
+      var posz = Math.sin(heightRad) * baseDis;
+      var posy = Math.cos(heightRad) * Math.sin(horizonRad) * baseDis;
+      var posx = Math.cos(heightRad) * Math.cos(horizonRad) * baseDis;
 
       document.getElementById("target").object3D.position.y -= 1;
-      scene.removeChild(sphere);
       cancelAnimationFrame(animId);
-    }else if(dis > 50){
       scene.removeChild(sphere);
+    }else if(dis > 2000){
       cancelAnimationFrame(animId);
+      scene.removeChild(sphere);
     }
   }
   var pos = {};
@@ -137,8 +140,8 @@ window.ontouchstart = window.onmousedown = function() {
   var acc = {};
   var baseSpeed = -0.4;
   var nowRotation = document.querySelector('a-camera').object3D.rotation;
-  acc.x = Math.sin(nowRotation._y) * baseSpeed;
-  acc.z = Math.cos(nowRotation._y) * baseSpeed;
+  acc.x = Math.cos(nowRotation._x) * Math.sin(nowRotation._y) * baseSpeed;
+  acc.z = Math.cos(nowRotation._x) *  Math.cos(nowRotation._y) * baseSpeed;
   acc.y = Math.sin(nowRotation._x) * -baseSpeed;
   physics();
 }
