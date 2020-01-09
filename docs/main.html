@@ -127,7 +127,7 @@ window.ontouchstart = window.onmousedown = function() {
       var posy = Math.cos(heightRad) * Math.sin(horizonRad) * baseDis;
       var posx = Math.cos(heightRad) * Math.cos(horizonRad) * baseDis;
 
-      document.getElementById("target").object3D.position.y -= 1;
+      document.getElementById("target").object3D.position.set(posx,posy,posz);
       cancelAnimationFrame(animId);
       scene.removeChild(sphere);
     }else if(dis > 2000){
