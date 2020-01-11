@@ -39,6 +39,11 @@
             position="0 1 -2"
             value="Count:0"
           ></a-text>
+          <a-text
+            id = "remaingTime"
+            position="0 1.2 -2"
+            value="Time:0"
+          ></a-text>
           <a-cursor
             scale="2 2 2"
             color="#ff0000"
@@ -107,6 +112,15 @@ window.onmouseup = clickPage;
 
 var HitCount = 0;
 
+var Time = Date.now() + 60000;
+function timer() {
+  requestAnimationFrame(timer);
+  var timerText = document.getElementById("remaingTime");
+  var nowRemainTime = Time - Date.now();
+  timerText.setAttribute("value","Time:"+nowRemainTime);
+}
+timer();
+
 window.ontouchstart = window.onmousedown = function() {
   var scene = document.querySelector('a-scene');
   var sphere = document.createElement('a-sphere');
@@ -136,7 +150,6 @@ window.ontouchstart = window.onmousedown = function() {
 
       HitCount++;
       console.log(HitCount);
-      
       document.getElementById("boxHitText").setAttribute('value',"Count:"+HitCount);
 
       document.getElementById("target").object3D.position.set(posx,posy,posz);
