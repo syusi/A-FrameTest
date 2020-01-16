@@ -125,7 +125,7 @@ function timer() {
   var timerId = requestAnimationFrame(timer);
   var timerText = document.getElementById("remaingTime");
   var nowRemainTime = Time - Date.now();
-  timerText.setAttribute("value","Time:"+nowRemainTime);
+  timerText.setAttribute("value","Time:"+(nowRemainTime/1000));
   
   if (nowRemainTime < 0) {
     gameEnd();
@@ -152,7 +152,9 @@ function gameEnd(){
   document.getElementById("boxHitText").setAttribute("value","Count:0");
 
   //ranking
-  document.getElementById("howtoplay").setAttribute("value","Result:"+HitCount+"Hit!!");
+  var rankText = "Result:"+HitCount+"Hit!!\n";
+  rankText += "Restart to shoot blue block!!";
+  document.getElementById("howtoplay").setAttribute("value",rankText);
   HitCount = 0;
 }
 
