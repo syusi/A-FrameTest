@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>MDN Games: A-Frame demo</title>
+  <title>syusi Games: A-Frame demo</title>
   <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@b1af4c73fd75a4a2a20a0bf0045460d431ef5846/dist/aframe-master.min.js"></script>
 </head>
 <body>
@@ -38,6 +38,17 @@
             id = "boxHitText"
             position="0 1 -2"
             value="Count:0"
+          ></a-text>
+          <a-text
+           id = "howtoplay"
+           position="-1 0 -2"
+           scale="0.75 0.75 1"
+           value="How To Play\n1.Look for the blue block\n2.Shoot the blue block\n3.Loop 1 and 2\nStart to shoot first blue block!!">
+          </a-text>
+          <a-text
+            id = "remaingTime"
+            position="0 1.2 -2"
+            value="Time:0"
           ></a-text>
           <a-cursor
             scale="2 2 2"
@@ -104,8 +115,48 @@ function clickPage (e) {
 }
 
 window.onmouseup = clickPage;
-
+//game用変数
 var HitCount = 0;
+var start = false;
+var Time = 0;
+
+
+function timer() {
+  var timerId = requestAnimationFrame(timer);
+  var timerText = document.getElementById("remaingTime");
+  var nowRemainTime = Time - Date.now();
+  timerText.setAttribute("value","Time:"+(nowRemainTime/1000));
+  
+  if (nowRemainTime < 0) {
+    gameEnd();
+  }
+
+  if(start == false){
+    timerText.setAttribute("value","Time:0");
+    cancelAnimationFrame(timerId);
+  }
+}
+
+function gameinit(){
+  start = true;
+  Time = Date.now() + 30000;
+  timer();
+  document.getElementById("howtoplay").setAttribute("value","");
+}
+
+
+function gameEnd(){
+  start = false;
+  Time = 0;
+  document.getElementById("target").setAttribute("position","3 0 -4");
+  document.getElementById("boxHitText").setAttribute("value","Count:0");
+
+  //ranking
+  var rankText = "Result:"+HitCount+"Hit!!\n";
+  rankText += "Restart to shoot blue block!!";
+  document.getElementById("howtoplay").setAttribute("value",rankText);
+  HitCount = 0;
+}
 
 window.ontouchstart = window.onmousedown = function() {
   var scene = document.querySelector('a-scene');
@@ -134,9 +185,13 @@ window.ontouchstart = window.onmousedown = function() {
       var posy = Math.cos(heightRad) * Math.sin(horizonRad) * baseDis;
       var posx = Math.cos(heightRad) * Math.cos(horizonRad) * baseDis;
 
+      //game start flag
+      if (start == false) {
+        gameinit();
+      }
+
       HitCount++;
-      console.log(HitCount);
-      
+      //console.log(HitCount);
       document.getElementById("boxHitText").setAttribute('value',"Count:"+HitCount);
 
       document.getElementById("target").object3D.position.set(posx,posy,posz);
